@@ -5,7 +5,7 @@ import styles from './WordsPages.module.scss'
 import { fetchWordFolds } from 'services/WordService'
 
 const WordsPages: React.FC = () => {
-  const { word, isLoading, error } = useAppSelector(
+  const { foldWord, isLoading, error } = useAppSelector(
     (state) => state.wordReduser
   )
   const dispatch = useAppDispatch()
@@ -28,8 +28,8 @@ const WordsPages: React.FC = () => {
         </div>
       )}
       <div className={styles.cardPosition}>
-        {word &&
-          word.map((data) => (
+        {foldWord &&
+          foldWord.map((data) => (
             <WordPageCard
               key={data._id}
               pageNumber={data.fold}

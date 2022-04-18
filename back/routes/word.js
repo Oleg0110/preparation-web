@@ -31,15 +31,26 @@ router.get('/number=:num', async (req, res) => {
       return res.status(400).json({ error: 'invalid data' })
     }
 
-    // const findWord = await Word.aggregate([
-    //   { $match: { fold: +num, know: false } },
-    //   { $sample: { size: 1 } },
-    // ])
+    const findWord = await Word.aggregate([
+      { $match: { fold: +num, know: false } },
+      { $sample: { size: 1 } },
+    ])
 
-    const findWord = await Word.find({ fold: +num })
-    // const [word] = findWord
+    const [word] = findWord
 
-    res.status(200).json(findWord)
+    res.status(200).json(word)
+  } catch (error) {
+    res.status(500).json({ error: 'internal server error' })
+  }
+})
+
+router.get('/number=:num/know', async (req, res) => {
+  try {
+    const { num } = req.params
+
+    const knowWord = await Word.find({ fold: +num, know: true })
+
+    res.status(200).json(knowWord)
   } catch (error) {
     res.status(500).json({ error: 'internal server error' })
   }
@@ -61,10 +72,11 @@ router.patch('/number=:num', async (req, res) => {
         { new: true }
       )
 
-      const words = await Word.find({ fold: +num })
+      const words = await Word.find({ fold: +num, know: true })
 
       res.status(200).json(words)
     }
+
     if (controller === 2) {
       await Word.findOneAndUpdate(
         { _id: wordId },
@@ -72,7 +84,7 @@ router.patch('/number=:num', async (req, res) => {
         { new: true }
       )
 
-      const words = await Word.find({ fold: +num })
+      const words = await Word.find({ fold: +num, know: true })
 
       res.status(200).json(words)
     }

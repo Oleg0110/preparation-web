@@ -1,27 +1,37 @@
 import React, { useState } from 'react'
 import { updateQuestionStatistics } from 'services/QuestionService'
+import { updateTask } from 'services/TasksService'
 import { useAppDispatch } from 'store/hooks/redux'
 import styles from './AccordionAnswer.module.scss'
 
 interface IAccordionAnswerProps {
   answer: string
-  questionId: string
+  questionId?: string
+  taskId?: string
   questionTheme: string
+  controlerState: number
 }
 
 const AccordionAnswer: React.FC<IAccordionAnswerProps> = ({
   answer,
   questionId,
+  taskId,
   questionTheme,
+  controlerState,
 }) => {
   const [isOpened, setIsOpened] = useState(false)
 
   const dispatch = useAppDispatch()
 
   const updateQuestion = (controlNumber: number) => {
-    dispatch(
-      updateQuestionStatistics({ questionTheme, questionId, controlNumber })
-    )
+    questionId &&
+      dispatch(
+        updateQuestionStatistics({ questionTheme, questionId, controlNumber })
+      )
+  }
+
+  const updateTasks = (controlNumber: number) => {
+    taskId && dispatch(updateTask({ taskId, controlNumber }))
   }
 
   return (
@@ -37,7 +47,7 @@ const AccordionAnswer: React.FC<IAccordionAnswerProps> = ({
             type="button"
             onClick={(e) => {
               e.stopPropagation()
-              updateQuestion(1)
+              controlerState === 1 ? updateQuestion(1) : updateTasks(1)
             }}
           >
             Knew
@@ -46,7 +56,7 @@ const AccordionAnswer: React.FC<IAccordionAnswerProps> = ({
             type="button"
             onClick={(e) => {
               e.stopPropagation()
-              updateQuestion(2)
+              controlerState === 1 ? updateQuestion(2) : updateTasks(2)
             }}
           >
             Didn't know

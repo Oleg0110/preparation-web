@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
-import { fetchWord } from 'services/WordService'
+import { fetchKnowWords, fetchWord } from 'services/WordService'
 import { useAppDispatch } from 'store/hooks/redux'
 import { ROUTES } from 'utils/constants'
 import styles from './WordPageCard.module.scss'
@@ -17,6 +17,7 @@ const WordPageCard: React.FC<WordPageCardProps> = ({ pageNumber }) => {
 
   const handleClick = () => {
     dispatch(fetchWord(pageNumber))
+    dispatch(fetchKnowWords(pageNumber))
     navigation(`${ROUTES.wordsPages}/number=${pageNumber}`)
   }
   return (

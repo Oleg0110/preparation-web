@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import {
+  fetchKnowWords,
   fetchWord,
   fetchWordFolds,
   knowWord,
@@ -7,14 +8,11 @@ import {
 } from 'services/WordService'
 import { IWord } from 'utils/interface'
 
-interface WordState {
-  word: IWord[]
-  isLoading: boolean
-  error: string
-}
-
-const initialState: WordState = {
-  word: [],
+const initialState = {
+  foldWord: [] as IWord[],
+  knowWord: [] as IWord[],
+  singleWord: {} as IWord,
+  singleLoading: false,
   isLoading: false,
   error: '',
 }
@@ -24,13 +22,14 @@ export const wordSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
+    //Get Folds
     [fetchWordFolds.fulfilled.type]: (
       state,
       action: PayloadAction<Omit<IWord[], 'engWord' | 'uaWord'>>
     ) => {
       state.isLoading = false
       state.error = ''
-      state.word = action.payload
+      state.foldWord = action.payload
     },
     [fetchWordFolds.pending.type]: (state) => {
       state.isLoading = true
@@ -39,22 +38,40 @@ export const wordSlice = createSlice({
       state.isLoading = false
       state.error = action.payload
     },
-    [fetchWord.fulfilled.type]: (state, action: PayloadAction<IWord[]>) => {
-      state.isLoading = false
+    //Get Word
+    [fetchWord.fulfilled.type]: (state, action: PayloadAction<IWord>) => {
+      state.singleLoading = false
       state.error = ''
-      state.word = action.payload
+      state.singleWord = action.payload
     },
     [fetchWord.pending.type]: (state) => {
-      state.isLoading = true
+      state.singleLoading = true
     },
     [fetchWord.rejected.type]: (state, action: PayloadAction<string>) => {
+      state.singleLoading = false
+      state.error = action.payload
+    },
+    //Get Know Words
+    [fetchKnowWords.fulfilled.type]: (
+      state,
+      action: PayloadAction<IWord[]>
+    ) => {
+      state.isLoading = false
+      state.error = ''
+      state.knowWord = action.payload
+    },
+    [fetchKnowWords.pending.type]: (state) => {
+      state.isLoading = true
+    },
+    [fetchKnowWords.rejected.type]: (state, action: PayloadAction<string>) => {
       state.isLoading = false
       state.error = action.payload
     },
+    //Request Update Word to know:true
     [knowWord.fulfilled.type]: (state, action: PayloadAction<IWord[]>) => {
       state.isLoading = false
       state.error = ''
-      state.word = action.payload
+      state.knowWord = action.payload
     },
     [knowWord.pending.type]: (state) => {
       state.isLoading = true
@@ -63,10 +80,11 @@ export const wordSlice = createSlice({
       state.isLoading = false
       state.error = action.payload
     },
+    //Request Update Word to know:false
     [repeatWord.fulfilled.type]: (state, action: PayloadAction<IWord[]>) => {
       state.isLoading = false
       state.error = ''
-      state.word = action.payload
+      state.knowWord = action.payload
     },
     [repeatWord.pending.type]: (state) => {
       state.isLoading = true

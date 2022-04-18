@@ -15,3 +15,12 @@ export interface IWord {
   fold: number
   know: boolean
 }
+
+export interface ITask {
+  _id: string
+  question: string
+  answer: string
+  howOffen: number
+  knew: number
+  didntKnow: number
+}

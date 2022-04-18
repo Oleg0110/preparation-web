@@ -37,15 +37,16 @@ router.get('/theme/:topic', async (req, res) => {
       { $match: { theme: topic } },
       { $sample: { size: 1 } },
     ])
+
     const [question] = findQiustion
-    // console.log(question)
-    const find = await Question.findOneAndUpdate(
+
+    const findQuestion = await Question.findOneAndUpdate(
       { _id: question._id },
       { $set: { howOffen: question.howOffen + 1 } },
       { new: true }
     )
 
-    res.status(200).json([find])
+    res.status(200).json(findQuestion)
   } catch (error) {
     res.status(500).json({ error: 'internal server error' })
   }
@@ -62,13 +63,13 @@ router.patch('/theme/:theme', async (req, res) => {
     if (controlNumber === 1) {
       const findQiustion = await Question.findOne({ _id: questionId })
 
-      const updatedQuestion = await Question.findOneAndUpdate(
+      const updated = await Question.findOneAndUpdate(
         { _id: questionId },
         { $set: { knew: findQiustion.knew + 1 } },
         { new: true }
       )
 
-      return res.status(200).json([updatedQuestion])
+      return res.status(200).json([updated])
     }
 
     if (controlNumber === 2) {

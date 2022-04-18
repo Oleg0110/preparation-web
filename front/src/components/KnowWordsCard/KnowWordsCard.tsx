@@ -1,21 +1,16 @@
 import React, { useState } from 'react'
 import { Card } from 'react-bootstrap'
-import { useDispatch } from 'react-redux'
 import { repeatWord } from 'services/WordService'
-import { useAppDispatch } from 'store/hooks/redux'
-import { IWord } from 'utils/interface'
+import { useAppDispatch, useAppSelector } from 'store/hooks/redux'
 import styles from './KnowWordsCard.module.scss'
 
-interface KnowWordsCardProps {
-  word: IWord[]
-}
-
-const KnowWordsCard: React.FC<KnowWordsCardProps> = ({ word }) => {
+const KnowWordsCard: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false)
+  const { knowWord, error, isLoading } = useAppSelector(
+    (state) => state.wordReduser
+  )
 
   const dispatch = useAppDispatch()
-
-  const filteredWord = word.filter((f) => f.know === true)
 
   const repeatWordFunc = (
     pageNum: number,
@@ -33,25 +28,37 @@ const KnowWordsCard: React.FC<KnowWordsCardProps> = ({ word }) => {
           setIsOpen(!isOpen)
         }}
       >
-        Open Knew Words {filteredWord.length}/10
+        Open Knew Words {knowWord.length}/10
       </button>
       <div className={styles.wordsCardBlock}>
         {(isOpen &&
-          filteredWord.length > 0 &&
-          filteredWord.map((data) => (
-            <Card key={data._id} className={styles.card}>
-              <Card.Header className={styles.header}>
-                {data.engWord} - {data.uaWord}
-                <button
-                  type="submit"
-                  onClick={() => repeatWordFunc(data.fold, data._id, 2)}
-                >
-                  <div className={styles.close} />
-                </button>
-              </Card.Header>
-            </Card>
+          knowWord.length > 0 &&
+          knowWord.map((data) => (
+            <>
+              {error && <h1>{error}</h1>}
+              {(isLoading && (
+                <div className={styles['lds-ellipsis']}>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              )) || (
+                <Card key={data._id} className={styles.card}>
+                  <Card.Header className={styles.header}>
+                    {data.engWord} - {data.uaWord}
+                    <button
+                      type="submit"
+                      onClick={() => repeatWordFunc(data.fold, data._id, 2)}
+                    >
+                      <div className={styles.close} />
+                    </button>
+                  </Card.Header>
+                </Card>
+              )}
+            </>
           ))) ||
-          (isOpen && filteredWord.length === 0 && (
+          (isOpen && knowWord.length === 0 && (
             <p className={styles.study}>Study Harder</p>
           ))}
       </div>

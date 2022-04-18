@@ -6,14 +6,10 @@ import {
 } from 'services/QuestionService'
 import { IQuestion } from 'utils/interface'
 
-interface QuestionState {
-  question: IQuestion[]
-  isLoading: boolean
-  error: string
-}
-
-const initialState: QuestionState = {
-  question: [],
+const initialState = {
+  question: {} as IQuestion,
+  questionTheme: [] as IQuestion[],
+  questionStatistics: [] as IQuestion[],
   isLoading: false,
   error: '',
 }
@@ -23,13 +19,14 @@ export const questionSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
+    //Get Qoustion Theme
     [fetchQuestionTheme.fulfilled.type]: (
       state,
       action: PayloadAction<IQuestion[]>
     ) => {
       state.isLoading = false
       state.error = ''
-      state.question = action.payload
+      state.questionTheme = action.payload
     },
     [fetchQuestionTheme.pending.type]: (state) => {
       state.isLoading = true
@@ -41,9 +38,10 @@ export const questionSlice = createSlice({
       state.isLoading = false
       state.error = action.payload
     },
+    //Get Qoustion
     [fetchQuestion.fulfilled.type]: (
       state,
-      action: PayloadAction<IQuestion[]>
+      action: PayloadAction<IQuestion>
     ) => {
       state.isLoading = false
       state.error = ''
@@ -56,13 +54,14 @@ export const questionSlice = createSlice({
       state.isLoading = false
       state.error = action.payload
     },
+    //Update Qoustion Statistics
     [updateQuestionStatistics.fulfilled.type]: (
       state,
       action: PayloadAction<IQuestion[]>
     ) => {
       state.isLoading = false
       state.error = ''
-      state.question = action.payload
+      state.questionStatistics = action.payload
     },
     [updateQuestionStatistics.pending.type]: (state) => {
       state.isLoading = true
