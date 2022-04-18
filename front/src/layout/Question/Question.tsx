@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { AccordionAnswer, StatisticsTable } from 'components'
 import { useAppDispatch, useAppSelector } from 'store/hooks/redux'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { ROUTES } from 'utils/constants'
+import { controlerAccordionState, ROUTES } from 'utils/constants'
 import { fetchQuestion } from 'services/QuestionService'
 import styles from './Question.module.scss'
 
@@ -21,7 +21,7 @@ const Question: React.FC = () => {
   }
 
   useEffect(() => {
-    navigation(`${ROUTES.questionTheme}/${theme}/${question[0]._id}`)
+    navigation(`${ROUTES.questionTheme}/${theme}/${question._id}`)
   }, [theme, question, navigation])
 
   return (
@@ -35,35 +35,35 @@ const Question: React.FC = () => {
           <div></div>
         </div>
       )) ||
-        (question &&
-          question.map((data) => (
-            <div key={data._id}>
-              <div className={styles.titleBlock}>
-                <button
-                  type="button"
-                  className={styles.back}
-                  onClick={() => navigation(ROUTES.questionTheme)}
-                >
-                  Back to Theme
-                </button>
-                <h1 className={styles.title}>Question</h1>
-                <StatisticsTable
-                  howOffen={data.howOffen}
-                  knew={data.knew}
-                  didntKnow={data.didntKnow}
-                />
-              </div>
-              <p className={styles.question}>{data.question}</p>
-              <AccordionAnswer
-                questionId={data._id}
-                answer={data.answer}
-                questionTheme={theme}
-              />
-              <button type="submit" onClick={handleClick}>
-                Next Question
+        (question && (
+          <div>
+            <div className={styles.titleBlock}>
+              <button
+                type="button"
+                className={styles.back}
+                onClick={() => navigation(ROUTES.questionTheme)}
+              >
+                Back to Theme
               </button>
+              <h1 className={styles.title}>Question</h1>
+              <StatisticsTable
+                howOffen={question.howOffen}
+                knew={question.knew}
+                didntKnow={question.didntKnow}
+              />
             </div>
-          )))}
+            <p className={styles.question}>{question.question}</p>
+            <AccordionAnswer
+              questionId={question._id}
+              answer={question.answer}
+              questionTheme={theme}
+              controlerState={controlerAccordionState.question}
+            />
+            <button type="submit" onClick={handleClick}>
+              Next Question
+            </button>
+          </div>
+        ))}
     </>
   )
 }

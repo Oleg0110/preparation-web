@@ -28,6 +28,7 @@ export const fetchQuestion = createAsyncThunk(
       const res = await axios.get<IQuestion[]>(
         `${QUESTION_THEME_LINK}/${theme}`
       )
+      console.log(res.data)
 
       return res.data
     } catch (error) {

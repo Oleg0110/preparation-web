@@ -1,5 +1,6 @@
 import React from 'react'
 import { Table } from 'react-bootstrap'
+import { useAppSelector } from 'store/hooks/redux'
 import styles from './StatisticsTable.module.scss'
 
 interface StatisticsTableProps {
@@ -13,6 +14,9 @@ const StatisticsTable: React.FC<StatisticsTableProps> = ({
   knew,
   didntKnow,
 }) => {
+  const { questionStatistics, isLoading, error } = useAppSelector(
+    (state) => state.questionReducer
+  )
   return (
     <Table className={styles.table}>
       <thead>

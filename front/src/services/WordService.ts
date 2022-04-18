@@ -25,11 +25,24 @@ export const fetchWordFolds = createAsyncThunk(
 )
 
 export const fetchWord = createAsyncThunk(
-  'word/page',
+  'word',
+  async (pageNum: number, thunkApi) => {
+    try {
+      const res = await axios.get<IWord>(`${WORD_PAGES_LINK}/number=${pageNum}`)
+
+      return res.data
+    } catch (error) {
+      return thunkApi.rejectWithValue((error as Error).message)
+    }
+  }
+)
+
+export const fetchKnowWords = createAsyncThunk(
+  'word/know',
   async (pageNum: number, thunkApi) => {
     try {
       const res = await axios.get<IWord[]>(
-        `${WORD_PAGES_LINK}/number=${pageNum}`
+        `${WORD_PAGES_LINK}/number=${pageNum}/know`
       )
 
       return res.data
@@ -40,7 +53,7 @@ export const fetchWord = createAsyncThunk(
 )
 
 export const knowWord = createAsyncThunk(
-  'word/know',
+  'word/update',
   async (arg: IKnowWordProps, thunkApi) => {
     try {
       const { pageNum, wordId, controller } = arg
@@ -56,6 +69,7 @@ export const knowWord = createAsyncThunk(
     }
   }
 )
+
 export const repeatWord = createAsyncThunk(
   'word/reapet',
   async (arg: IKnowWordProps, thunkApi) => {

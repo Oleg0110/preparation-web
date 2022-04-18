@@ -5,7 +5,7 @@ import { fetchQuestionTheme } from 'services/QuestionService'
 import styles from './QuestionTheme.module.scss'
 
 const QuestionTheme: React.FC = () => {
-  const { question, isLoading, error } = useAppSelector(
+  const { questionTheme, isLoading, error } = useAppSelector(
     (state) => state.questionReducer
   )
   const dispatch = useAppDispatch()
@@ -30,8 +30,8 @@ const QuestionTheme: React.FC = () => {
         <>
           <div className={styles.cardsBlock}>
             <div className={styles.cardPosition}>
-              {question &&
-                question.map((data) => (
+              {questionTheme &&
+                questionTheme.map((data) => (
                   <div key={data._id}>
                     <ThemeСard themeName={data.theme} />
                   </div>
