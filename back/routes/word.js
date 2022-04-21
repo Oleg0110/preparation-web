@@ -8,9 +8,11 @@ router.get('/', async (req, res) => {
 
     await (
       await Word.find({})
-    ).map(({ fold, _id }) => folds.push({ fold: fold, _id: _id }))
+    ).map(({ fold, _id }) => {
+      folds.push({ fold: fold, _id: _id })
+    })
 
-    uniqFolds = folds.reduce(
+    const uniqFolds = folds.reduce(
       (acc, cur) => [...acc.filter((obj) => obj.fold !== cur.fold), cur],
       []
     )

@@ -2,19 +2,20 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import {
   fetchTask,
   fetchTaskStatistics,
-  updateTask,
+  updateTaskStatistics,
 } from 'services/TasksService'
 import { ITask } from 'utils/interface'
 
 const initialState = {
-  tasks: {} as ITask,
-  tasksStatistics: {} as ITask,
+  task: {} as ITask,
+  taskStatistics: {} as Omit<ITask, 'answer' | 'task'>,
+  statisticsIsLoading: false,
   isLoading: false,
   error: '',
 }
 
 export const tasksSlice = createSlice({
-  name: 'tasks',
+  name: 'task',
   initialState,
   reducers: {},
   extraReducers: {
@@ -22,7 +23,7 @@ export const tasksSlice = createSlice({
     [fetchTask.fulfilled.type]: (state, action: PayloadAction<ITask>) => {
       state.isLoading = false
       state.error = ''
-      state.tasks = action.payload
+      state.task = action.payload
     },
     [fetchTask.pending.type]: (state) => {
       state.isLoading = true
@@ -31,14 +32,14 @@ export const tasksSlice = createSlice({
       state.isLoading = false
       state.error = action.payload
     },
-    //
+    //Get Task Statistics
     [fetchTaskStatistics.fulfilled.type]: (
       state,
       action: PayloadAction<ITask>
     ) => {
       state.isLoading = false
       state.error = ''
-      state.tasksStatistics = action.payload
+      state.taskStatistics = action.payload
     },
     [fetchTaskStatistics.pending.type]: (state) => {
       state.isLoading = true
@@ -51,16 +52,22 @@ export const tasksSlice = createSlice({
       state.error = action.payload
     },
     //Update Task Statistics
-    [updateTask.fulfilled.type]: (state, action: PayloadAction<ITask>) => {
-      state.isLoading = false
+    [updateTaskStatistics.fulfilled.type]: (
+      state,
+      action: PayloadAction<ITask>
+    ) => {
+      state.statisticsIsLoading = false
       state.error = ''
-      state.tasks = action.payload
+      state.taskStatistics = action.payload
     },
-    [updateTask.pending.type]: (state) => {
-      state.isLoading = true
+    [updateTaskStatistics.pending.type]: (state) => {
+      state.statisticsIsLoading = true
     },
-    [updateTask.rejected.type]: (state, action: PayloadAction<string>) => {
-      state.isLoading = false
+    [updateTaskStatistics.rejected.type]: (
+      state,
+      action: PayloadAction<string>
+    ) => {
+      state.statisticsIsLoading = false
       state.error = action.payload
     },
   },

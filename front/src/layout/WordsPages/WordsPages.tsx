@@ -8,11 +8,12 @@ const WordsPages: React.FC = () => {
   const { foldWord, isLoading, error } = useAppSelector(
     (state) => state.wordReduser
   )
+
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(fetchWordFolds())
-  }, [dispatch])
+    foldWord.length === 0 && dispatch(fetchWordFolds())
+  }, [dispatch, foldWord])
 
   return (
     <div>

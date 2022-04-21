@@ -11,8 +11,8 @@ const QuestionTheme: React.FC = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(fetchQuestionTheme())
-  }, [dispatch])
+    questionTheme.length === 0 && dispatch(fetchQuestionTheme())
+  }, [questionTheme, dispatch])
 
   return (
     <>

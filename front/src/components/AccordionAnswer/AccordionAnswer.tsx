@@ -1,38 +1,59 @@
 import React, { useState } from 'react'
 import { updateQuestionStatistics } from 'services/QuestionService'
-import { updateTask } from 'services/TasksService'
-import { useAppDispatch } from 'store/hooks/redux'
+import { updateTaskStatistics } from 'services/TasksService'
+import { useAppDispatch, useAppSelector } from 'store/hooks/redux'
 import styles from './AccordionAnswer.module.scss'
 
 interface IAccordionAnswerProps {
-  answer: string
-  questionId?: string
-  taskId?: string
-  questionTheme: string
   controlerState: number
 }
 
 const AccordionAnswer: React.FC<IAccordionAnswerProps> = ({
-  answer,
-  questionId,
-  taskId,
-  questionTheme,
   controlerState,
 }) => {
   const [isOpened, setIsOpened] = useState(false)
+  const [isController, setIsController] = useState(false)
+
+  const { question } = useAppSelector((state) => state.questionReducer)
+  const { task } = useAppSelector((state) => state.tasksReduser)
 
   const dispatch = useAppDispatch()
 
   const updateQuestion = (controlNumber: number) => {
-    questionId &&
+    question &&
       dispatch(
-        updateQuestionStatistics({ questionTheme, questionId, controlNumber })
+        updateQuestionStatistics({
+          questionTheme: question.theme,
+          questionId: question._id,
+          controlNumber,
+        })
       )
   }
 
   const updateTasks = (controlNumber: number) => {
-    taskId && dispatch(updateTask({ taskId, controlNumber }))
+    task && dispatch(updateTaskStatistics({ taskId: task._id, controlNumber }))
   }
+
+  const knowFunc = () => {
+    setIsController(true)
+    !isController && controlerState === 1
+      ? updateQuestion(1)
+      : !isController && controlerState === 2 && updateTasks(1)
+  }
+
+  const didntKnowFunc = () => {
+    setIsController(true)
+    !isController && controlerState === 1
+      ? updateQuestion(2)
+      : !isController && controlerState === 2 && updateTasks(2)
+  }
+
+  const openAnswerStyle =
+    isOpened && controlerState === 1
+      ? styles.openedQuestionAccor
+      : isOpened && controlerState === 2 && styles.openedTaskAccor
+
+  const answer = controlerState === 1 ? question.answer : task.answer
 
   return (
     <div className={styles.accordionSection}>
@@ -47,16 +68,16 @@ const AccordionAnswer: React.FC<IAccordionAnswerProps> = ({
             type="button"
             onClick={(e) => {
               e.stopPropagation()
-              controlerState === 1 ? updateQuestion(1) : updateTasks(1)
+              knowFunc()
             }}
           >
-            Knew
+            Know
           </button>
           <button
             type="button"
             onClick={(e) => {
               e.stopPropagation()
-              controlerState === 1 ? updateQuestion(2) : updateTasks(2)
+              didntKnowFunc()
             }}
           >
             Didn't know
@@ -66,9 +87,7 @@ const AccordionAnswer: React.FC<IAccordionAnswerProps> = ({
           />
         </div>
       </button>
-      <div
-        className={`${styles.accordionAnswer} ${isOpened && styles.opened} `}
-      >
+      <div className={`${styles.accordionAnswer} ${openAnswerStyle} `}>
         <div className={styles.goTo}>
           <p className={styles.contentAnswer}>{answer}</p>
         </div>

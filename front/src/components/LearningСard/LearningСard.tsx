@@ -1,9 +1,6 @@
 import React from 'react'
 import { Card } from 'react-bootstrap'
-import { Link, useNavigate } from 'react-router-dom'
-import { fetchTask, fetchTaskStatistics } from 'services/TasksService'
-import { useAppDispatch } from 'store/hooks/redux'
-import { ROUTES } from 'utils/constants'
+import { Link } from 'react-router-dom'
 import styles from './LearningСard.module.scss'
 
 interface LearningСardProps {
@@ -13,16 +10,8 @@ interface LearningСardProps {
 }
 
 const LearningСard: React.FC<LearningСardProps> = ({ title, link, text }) => {
-  const dispatch = useAppDispatch()
-
-  const handleClick = () => {
-    if (link === ROUTES.tasks) {
-      dispatch(fetchTask())
-      dispatch(fetchTaskStatistics())
-    }
-  }
   return (
-    <Link to={link} className={styles.link} onClick={handleClick}>
+    <Link to={link} className={styles.link}>
       <Card className={styles.card}>
         <Card.Header className={styles.header}>{title}</Card.Header>
         <Card.Body>

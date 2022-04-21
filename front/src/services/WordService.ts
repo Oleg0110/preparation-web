@@ -13,7 +13,7 @@ export const fetchWordFolds = createAsyncThunk(
   'word/folds',
   async (_, thunkApi) => {
     try {
-      const res = await axios.get<Omit<IWord[], 'engWord' | 'uaWord'>>(
+      const res = await axios.get<Omit<IWord[], 'engWord' | 'uaWord' | 'know'>>(
         WORD_PAGES_LINK
       )
 

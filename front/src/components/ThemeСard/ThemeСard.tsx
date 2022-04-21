@@ -1,8 +1,6 @@
 import React from 'react'
 import { Card } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
-import { fetchQuestion } from 'services/QuestionService'
-import { useAppDispatch } from 'store/hooks/redux'
 import { ROUTES } from 'utils/constants'
 import styles from './ThemeСard.module.scss'
 
@@ -12,10 +10,8 @@ interface ThemeСardProps {
 
 const ThemeСard: React.FC<ThemeСardProps> = ({ themeName }) => {
   const navigation = useNavigate()
-  const dispatch = useAppDispatch()
 
-  const handleClick = () => {
-    dispatch(fetchQuestion(themeName))
+  const handleClick = async () => {
     navigation(`${ROUTES.questionTheme}/${themeName}`)
   }
 
