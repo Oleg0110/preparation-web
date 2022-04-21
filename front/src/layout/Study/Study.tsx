@@ -18,7 +18,7 @@ const Study: React.FC = () => {
           text={questionInfoText}
           link={ROUTES.questionTheme}
         />
-        <LearningСard title="Tasks" text={taskInfoText} link={ROUTES.tasks} />
+        <LearningСard title="Tasks" text={taskInfoText} link={ROUTES.task} />
         <LearningСard
           title="Words"
           text={wordInfoText}

@@ -1,28 +1,48 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AccordionAnswer, StatisticsTable } from 'components'
 import { useAppDispatch, useAppSelector } from 'store/hooks/redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { controlerAccordionState, ROUTES } from 'utils/constants'
-import { fetchQuestion } from 'services/QuestionService'
+import {
+  fetchQuestion,
+  fetchQuestionStatistics,
+} from 'services/QuestionService'
+import { toast } from 'react-toastify'
 import styles from './Question.module.scss'
 
 const Question: React.FC = () => {
-  const { question, isLoading, error } = useAppSelector(
+  const { question, questionStatistics, isLoading, error } = useAppSelector(
     (state) => state.questionReducer
   )
+
+  const [isEmpty, setIsEmpty] = useState(false)
+
   const dispatch = useAppDispatch()
   const navigation = useNavigate()
-
   const location = useLocation()
+
   const theme = location.pathname.split('/')[3]
 
-  const handleClick = () => {
-    dispatch(fetchQuestion(theme))
-  }
-
   useEffect(() => {
-    navigation(`${ROUTES.questionTheme}/${theme}/${question._id}`)
-  }, [theme, question, navigation])
+    const asyncFunc = async () => {
+      question._id
+        ? isEmpty &&
+          dispatch(fetchQuestionStatistics({ theme, questionId: question._id }))
+        : (await dispatch(fetchQuestion(theme))) && setIsEmpty(true)
+
+      question._id &&
+        navigation(`${ROUTES.questionTheme}/${theme}/${question._id}`)
+    }
+    asyncFunc()
+  }, [isEmpty, dispatch, theme, question, navigation])
+
+  const handleClick = async () => {
+    question.knew !== questionStatistics.knew ||
+    question.didntKnow !== questionStatistics.didntKnow
+      ? (await dispatch(fetchQuestion(theme))) &&
+        dispatch(fetchQuestionStatistics({ theme, questionId: question._id }))
+      : toast.error("Choose: Know or Didn't know")
+  }
 
   return (
     <>
@@ -46,17 +66,10 @@ const Question: React.FC = () => {
                 Back to Theme
               </button>
               <h1 className={styles.title}>Question</h1>
-              <StatisticsTable
-                howOffen={question.howOffen}
-                knew={question.knew}
-                didntKnow={question.didntKnow}
-              />
+              <StatisticsTable controller={controlerAccordionState.question} />
             </div>
             <p className={styles.question}>{question.question}</p>
             <AccordionAnswer
-              questionId={question._id}
-              answer={question.answer}
-              questionTheme={theme}
               controlerState={controlerAccordionState.question}
             />
             <button type="submit" onClick={handleClick}>

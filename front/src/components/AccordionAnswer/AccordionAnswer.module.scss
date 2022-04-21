@@ -57,9 +57,17 @@
   }
 }
 
-.opened {
+.openedQuestionAccor {
   min-height: 1px;
-  max-height: 200px;
+  max-height: 185px;
+  overflow-y: scroll;
+  box-shadow: 0px 0px 10px 2px #94cc49;
+  transition: 0.5s;
+}
+
+.openedTaskAccor {
+  min-height: 1px;
+  max-height: 150px;
   overflow-y: scroll;
   box-shadow: 0px 0px 10px 2px #94cc49;
   transition: 0.5s;

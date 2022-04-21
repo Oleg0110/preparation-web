@@ -18,7 +18,7 @@ export interface IWord {
 
 export interface ITask {
   _id: string
-  question: string
+  task: string
   answer: string
   howOffen: number
   knew: number

@@ -4,7 +4,7 @@ import {
   Question,
   QuestionTheme,
   Study,
-  Tasks,
+  Task,
   Words,
   WordsPages,
 } from 'layout'
@@ -19,7 +19,8 @@ const useRoutes = () => (
     <Route path={ROUTES.study} element={<Study />} />
     <Route path={ROUTES.questionTheme} element={<QuestionTheme />} />
     <Route path={`${ROUTES.questionTheme}/*`} element={<Question />} />
-    <Route path={ROUTES.tasks} element={<Tasks />} />
+    <Route path={ROUTES.task} element={<Task />} />
+    <Route path={`${ROUTES.task}/*`} element={<Task />} />
     <Route path={`${ROUTES.wordsPages}`} element={<WordsPages />} />
     <Route path={`${ROUTES.wordsPages}/*`} element={<Words />} />
   </Routes>

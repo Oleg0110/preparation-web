@@ -13,9 +13,11 @@ const Words: React.FC = () => {
 
   const dispatch = useAppDispatch()
   const navigation = useNavigate()
-
   const location = useLocation()
+
   const pageNum = +location.pathname.split('=')[1].split('&')[0]
+
+  const isEmpty = Object.keys(singleWord).length !== 0
 
   const nextWord = () => {
     dispatch(fetchWord(pageNum))
@@ -47,7 +49,7 @@ const Words: React.FC = () => {
             <div></div>
           </div>
         )) ||
-          (singleWord && (
+          (isEmpty && (
             <>
               <WordCard
                 engWord={singleWord.engWord}
@@ -55,30 +57,28 @@ const Words: React.FC = () => {
               />
             </>
           )) ||
-          (!singleWord && (
+          (!isEmpty && (
             <div className={styles.message}>
               <p>Congratulations!</p>
               <p>You have learnt 10 word</p>
             </div>
           ))}
       </div>
-      {singleWord && (
-        <div className={styles.buttonField}>
-          <button
-            type="button"
-            onClick={() => {
-              knowWordFunc(1)
-              nextWord()
-            }}
-          >
-            I know this word
-          </button>
-          <button type="button" onClick={nextWord} className={styles.next}>
-            next
-          </button>
-          <br />
-        </div>
-      )}
+      <div className={styles.buttonField}>
+        <button
+          type="button"
+          onClick={() => {
+            knowWordFunc(1)
+            nextWord()
+          }}
+        >
+          I know this word
+        </button>
+        <button type="button" onClick={nextWord} className={styles.next}>
+          next
+        </button>
+        <br />
+      </div>
       <KnowWordsCard />
     </div>
   )

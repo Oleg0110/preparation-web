@@ -10,11 +10,9 @@ app.use(
   })
 )
 
-app.use('/study', require('./routes/study'))
-
 app.use('/question', require('./routes/question'))
 app.use('/words-pages', require('./routes/word'))
-app.use('/tasks', require('./routes/tasks'))
+app.use('/task', require('./routes/task'))
 
 const asyncStart = async () => {
   try {

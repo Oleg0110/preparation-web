@@ -1,7 +1,7 @@
 const { Router } = require('express')
-const question = require('../models/question')
 const router = Router()
 const Tasks = require('../models/taskQuestion')
+const statisticsСonvertFunc = require('../utils/functions')
 
 router.get('/', async (req, res) => {
   try {
@@ -14,25 +14,22 @@ router.get('/', async (req, res) => {
       { $set: { howOffen: task.howOffen + 1 } },
       { new: true }
     )
-    console.log(1, find)
+
     res.status(200).json(find)
   } catch (error) {
     res.status(500).json({ error: 'internal server error' })
   }
 })
-router.get('/statistics', async (req, res) => {
+
+router.get('/:taskId', async (req, res) => {
   try {
-    const findTask = await Tasks.aggregate([{ $sample: { size: 1 } }])
+    const { taskId } = req.params
 
-    const [task] = findTask
+    const find = await Tasks.findOne({ _id: taskId })
 
-    const find = await Tasks.findOneAndUpdate(
-      { _id: task._id },
-      { $set: { howOffen: task.howOffen + 1 } },
-      { new: true }
-    )
-    console.log(find)
-    res.status(200).json(find)
+    const statistics = statisticsСonvertFunc(find)
+
+    res.status(200).json(statistics)
   } catch (error) {
     res.status(500).json({ error: 'internal server error' })
   }
@@ -55,7 +52,9 @@ router.patch('/', async (req, res) => {
         { new: true }
       )
 
-      return res.status(200).json(updated)
+      const statistics = statisticsСonvertFunc(updated)
+
+      return res.status(200).json(statistics)
     }
 
     if (controlNumber === 2) {
@@ -67,7 +66,9 @@ router.patch('/', async (req, res) => {
         { new: true }
       )
 
-      return res.status(200).json(updated)
+      const statistics = statisticsСonvertFunc(updated)
+
+      return res.status(200).json(statistics)
     }
   } catch (error) {
     res.status(500).json({ error: 'internal server error' })

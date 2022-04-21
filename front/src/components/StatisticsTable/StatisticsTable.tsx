@@ -4,19 +4,22 @@ import { useAppSelector } from 'store/hooks/redux'
 import styles from './StatisticsTable.module.scss'
 
 interface StatisticsTableProps {
-  howOffen: number
-  knew: number
-  didntKnow: number
+  controller: number
 }
 
-const StatisticsTable: React.FC<StatisticsTableProps> = ({
-  howOffen,
-  knew,
-  didntKnow,
-}) => {
-  const { questionStatistics, isLoading, error } = useAppSelector(
+const StatisticsTable: React.FC<StatisticsTableProps> = ({ controller }) => {
+  const { questionStatistics } = useAppSelector(
     (state) => state.questionReducer
   )
+  const { taskStatistics } = useAppSelector((state) => state.tasksReduser)
+
+  const howOffenStatistic =
+    controller === 1 ? questionStatistics.howOffen : taskStatistics.howOffen
+  const knowStatistic =
+    controller === 1 ? questionStatistics.knew : taskStatistics.knew
+  const didntKnowStatistic =
+    controller === 1 ? questionStatistics.didntKnow : taskStatistics.didntKnow
+
   return (
     <Table className={styles.table}>
       <thead>
@@ -28,9 +31,9 @@ const StatisticsTable: React.FC<StatisticsTableProps> = ({
       </thead>
       <tbody>
         <tr>
-          <th className={styles.count}>{howOffen}</th>
-          <th className={styles.count}>{knew}</th>
-          <th className={styles.count}>{didntKnow}</th>
+          <th className={styles.count}>{howOffenStatistic}</th>
+          <th className={styles.count}>{knowStatistic}</th>
+          <th className={styles.count}>{didntKnowStatistic}</th>
         </tr>
       </tbody>
     </Table>
