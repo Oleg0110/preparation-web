@@ -1,0 +1,33 @@
+.card {
+  height: 150px;
+  width: 18rem;
+  border-color: #7d83d6 !important;
+  background-color: #ff000000 !important;
+  transition: 0.5s;
+
+  &:hover {
+    height: 170px;
+    width: 20rem;
+    background-color: #7d83d61a !important;
+    transition: 0.5s;
+  }
+}
+
+.link {
+  color: #2e2e2e;
+  text-decoration: none;
+  &:hover {
+    color: #472f76;
+  }
+}
+
+.header {
+  font-size: 20px;
+  font-weight: 500;
+  padding: 0 !important;
+}
+
+.text {
+  margin-top: 10px;
+  font-size: 17px;
+}

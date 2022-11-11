@@ -1,0 +1,8 @@
+export { default as Home } from './Home/Home'
+export { default as Header } from './Header/Header'
+export { default as QuestionTheme } from './QuestionTheme/QuestionTheme'
+export { default as Question } from './Question/Question'
+export { default as Study } from './Study/Study'
+export { default as Task } from './Task/Task'
+export { default as WordsPages } from './WordsPages/WordsPages'
+export { default as Words } from './Words/Words'

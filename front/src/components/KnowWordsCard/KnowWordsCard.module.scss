@@ -1,0 +1,67 @@
+.mainBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.wordsCardBlock {
+  width: 575px;
+  height: 120px;
+  overflow-y: scroll;
+  max-height: 250px;
+
+  &::-webkit-scrollbar {
+    width: 15px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #ffffff00;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #00000075;
+    border: 4px solid #949bbe;
+    border-radius: 10px;
+  }
+}
+
+.card {
+  height: 33px;
+  width: 40rem;
+  border-color: #7d83d6 !important;
+  background-color: #ff000000 !important;
+  transition: 0.5s;
+}
+
+.link {
+  color: #2e2e2e;
+  text-decoration: none;
+}
+
+.header {
+  font-size: 20px;
+  font-weight: 500;
+  padding: 0 !important;
+}
+
+.text {
+  margin-top: 10px;
+  font-size: 17px;
+}
+
+.close {
+  position: absolute;
+  background-image: url(../../assets/icon/closeIcon.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 10px;
+  width: 20px;
+  height: 20px;
+  top: 6px;
+  right: 5px;
+}
+
+.study {
+  margin-top: 45px;
+}

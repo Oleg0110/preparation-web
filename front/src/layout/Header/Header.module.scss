@@ -1,0 +1,36 @@
+.back {
+  background-color: aqua;
+  position: relative;
+}
+
+.position {
+  margin: auto auto;
+  position: absolute;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 700;
+  position: relative;
+}
+
+.logoIcon {
+  position: absolute;
+  background-image: url(../../assets/icon/flower1.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 20px;
+  width: 30px;
+  height: 30px;
+  top: 8px;
+  right: -25px;
+}
+
+.navBar {
+  background-color: #949bbe;
+  border-radius: 5px 5px 10px 10px;
+}
+
+.navButtons {
+  margin-right: 30px;
+}

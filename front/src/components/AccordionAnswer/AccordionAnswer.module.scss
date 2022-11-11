@@ -1,0 +1,102 @@
+.accordionSection {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.accordion {
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  border: none;
+  outline: none;
+  transition: background-color 0.6s ease;
+  width: 100%;
+  justify-content: space-between;
+  border-radius: 10px;
+  box-shadow: 1px 1px 4px 0px #000;
+}
+
+.accordionTitle {
+  font-weight: 600;
+  font-size: 17px;
+  margin: 0 0 0 20px;
+}
+
+.accordionButtons {
+  display: flex;
+  width: 25%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.accordionAnswer {
+  margin-top: 20px;
+  background-color: #fff0;
+  overflow: hidden;
+  width: 100%;
+  border-radius: 10px;
+  text-align: start;
+  max-height: 0px;
+  position: relative;
+  transition: 0.5s;
+
+  &::-webkit-scrollbar {
+    width: 15px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #ffffff00;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #00000075;
+    border: 4px solid #949bbe;
+    border-radius: 10px;
+  }
+}
+
+.openedQuestionAccor {
+  min-height: 1px;
+  max-height: 185px;
+  overflow-y: scroll;
+  box-shadow: 0px 0px 10px 2px #94cc49;
+  transition: 0.5s;
+}
+
+.openedTaskAccor {
+  min-height: 1px;
+  max-height: 150px;
+  overflow-y: scroll;
+  box-shadow: 0px 0px 10px 2px #94cc49;
+  transition: 0.5s;
+}
+
+.goTo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.contentAnswer {
+  font-weight: 600;
+  font-size: 17px;
+  padding: 10px 15px;
+}
+
+.plusIcon {
+  background-image: url(../../assets/icon/plusIcon.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 18px;
+  width: 25px;
+  height: 25px;
+  margin-right: 7px;
+  transition: 0.5s;
+}
+
+.minusIcon {
+  background-image: url(../../assets/icon/minusIcon.svg);
+  transition: 0.5s;
+}
